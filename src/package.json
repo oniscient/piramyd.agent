@@ -1,5 +1,5 @@
 {
-	"name": "roo-cline",
+	"name": "piramyd-agent",
 	"displayName": "%extension.displayName%",
 	"description": "%extension.description%",
 	"publisher": "RooVeterinaryInc",
@@ -92,8 +92,13 @@
 			},
 			{
 				"command": "roo-cline.cloudButtonClicked",
-				"title": "%command.cloud.title%",
-				"icon": "$(cloud)"
+				"title": "Account",
+				"icon": "$(account)"
+			},
+			{
+				"command": "roo-cline.statsButtonClicked",
+				"title": "Statistics",
+				"icon": "$(graph)"
 			},
 			{
 				"command": "roo-cline.settingsButtonClicked",
@@ -229,6 +234,11 @@
 					"when": "view == roo-cline.SidebarProvider"
 				},
 				{
+					"command": "roo-cline.statsButtonClicked",
+					"group": "navigation@4",
+					"when": "view == roo-cline.SidebarProvider"
+				},
+				{
 					"command": "roo-cline.marketplaceButtonClicked",
 					"group": "navigation@4",
 					"when": "view == roo-cline.SidebarProvider"
@@ -258,6 +268,11 @@
 				{
 					"command": "roo-cline.cloudButtonClicked",
 					"group": "navigation@3",
+					"when": "activeWebviewPanelId == roo-cline.TabPanelProvider"
+				},
+				{
+					"command": "roo-cline.statsButtonClicked",
+					"group": "navigation@4",
 					"when": "activeWebviewPanelId == roo-cline.TabPanelProvider"
 				},
 				{

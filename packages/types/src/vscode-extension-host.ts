@@ -404,6 +404,9 @@ export type ExtensionState = Pick<
 	taskSyncEnabled: boolean
 	featureRoomoteControlEnabled: boolean
 	openAiCodexIsAuthenticated?: boolean
+	piramydToken?: string
+	piramydUser?: any
+	piramydStats?: any
 	debug?: boolean
 }
 
@@ -602,6 +605,10 @@ export interface WebviewMessage {
 		| "createWorktreeInclude"
 		| "checkoutBranch"
 		| "browseForWorktreePath"
+		| "piramydLogin"
+		| "piramydRegister"
+		| "piramydLogout"
+		| "piramydGetStats"
 	text?: string
 	editedMessageContent?: string
 	tab?: "settings" | "history" | "mcp" | "modes" | "chat" | "marketplace" | "cloud"

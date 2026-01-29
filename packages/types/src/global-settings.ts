@@ -235,6 +235,8 @@ export const globalSettingsSchema = z.object({
 	 * @default true
 	 */
 	showWorktreesInHomeScreen: z.boolean().optional(),
+	piramydUser: z.any().optional(),
+	piramydStats: z.any().optional(),
 })
 
 export type GlobalSettings = z.infer<typeof globalSettingsSchema>
@@ -291,6 +293,8 @@ export const SECRET_STATE_KEYS = [
 	"ioIntelligenceApiKey",
 	"vercelAiGatewayApiKey",
 	"basetenApiKey",
+	"piramydApiKey",
+	"piramydToken",
 ] as const
 
 // Global secrets that are part of GlobalSettings (not ProviderSettings)

@@ -18,7 +18,7 @@ import { Button } from "@src/components/ui"
 import ApiOptions from "../settings/ApiOptions"
 import { Tab, TabContent } from "../common/Tab"
 
-import RooHero from "./RooHero"
+import PiramydHero from "./PiramydHero"
 import { Trans } from "react-i18next"
 import { ArrowLeft, ArrowRight, BadgeInfo, Brain, TriangleAlert } from "lucide-react"
 import { buildDocLink } from "@/utils/docLinks"
@@ -292,7 +292,7 @@ const WelcomeViewProvider = () => {
 		return (
 			<Tab>
 				<TabContent className="flex flex-col gap-4 p-6 justify-center">
-					<RooHero />
+					<PiramydHero />
 					<h2 className="mt-0 mb-0 text-xl">{t("welcome:landing.greeting")}</h2>
 
 					<div className="space-y-4 leading-normal">

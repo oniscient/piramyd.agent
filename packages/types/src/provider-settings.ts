@@ -50,6 +50,7 @@ export const dynamicProviders = [
 	"unbound",
 	"roo",
 	"chutes",
+	"piramyd",
 ] as const
 
 export type DynamicProvider = (typeof dynamicProviders)[number]
@@ -140,6 +141,7 @@ export const providerNames = [
 	"vertex",
 	"xai",
 	"zai",
+	"piramyd",
 ] as const
 
 export const providerNamesSchema = z.enum(providerNames)
@@ -408,6 +410,11 @@ const rooSchema = apiModelIdProviderModelSchema.extend({
 	rooApiKey: z.string().optional(),
 })
 
+const piramydSchema = apiModelIdProviderModelSchema.extend({
+	piramydApiKey: z.string().optional(),
+	piramydBaseUrl: z.string().optional(),
+})
+
 const vercelAiGatewaySchema = baseProviderSettingsSchema.extend({
 	vercelAiGatewayApiKey: z.string().optional(),
 	vercelAiGatewayModelId: z.string().optional(),
@@ -457,6 +464,7 @@ export const providerSettingsSchemaDiscriminated = z.discriminatedUnion("apiProv
 	ioIntelligenceSchema.merge(z.object({ apiProvider: z.literal("io-intelligence") })),
 	qwenCodeSchema.merge(z.object({ apiProvider: z.literal("qwen-code") })),
 	rooSchema.merge(z.object({ apiProvider: z.literal("roo") })),
+	piramydSchema.merge(z.object({ apiProvider: z.literal("piramyd") })),
 	vercelAiGatewaySchema.merge(z.object({ apiProvider: z.literal("vercel-ai-gateway") })),
 	defaultSchema,
 ])
@@ -498,6 +506,7 @@ export const providerSettingsSchema = z.object({
 	...ioIntelligenceSchema.shape,
 	...qwenCodeSchema.shape,
 	...rooSchema.shape,
+	...piramydSchema.shape,
 	...vercelAiGatewaySchema.shape,
 	...codebaseIndexProviderSchema.shape,
 })
@@ -583,6 +592,7 @@ export const modelIdKeysByProvider: Record<TypicalProvider, ModelIdKey> = {
 	featherless: "apiModelId",
 	"io-intelligence": "ioIntelligenceModelId",
 	roo: "apiModelId",
+	piramyd: "apiModelId",
 	"vercel-ai-gateway": "vercelAiGatewayModelId",
 }
 
@@ -692,6 +702,7 @@ export const MODELS_BY_PROVIDER: Record<
 	},
 	"qwen-code": { id: "qwen-code", label: "Qwen Code", models: Object.keys(qwenCodeModels) },
 	roo: { id: "roo", label: "Roo Code Router", models: [] },
+	piramyd: { id: "piramyd", label: "Piramyd API", models: [] },
 	sambanova: {
 		id: "sambanova",
 		label: "SambaNova",

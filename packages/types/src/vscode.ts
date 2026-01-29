@@ -34,6 +34,7 @@ export const commandIds = [
 	"marketplaceButtonClicked",
 	"popoutButtonClicked",
 	"cloudButtonClicked",
+	"statsButtonClicked",
 	"settingsButtonClicked",
 
 	"openInNewTab",

@@ -56,6 +56,7 @@ import { openMention } from "../mentions"
 import { resolveImageMentions } from "../mentions/resolveImageMentions"
 import { RooIgnoreController } from "../ignore/RooIgnoreController"
 import { getWorkspacePath } from "../../utils/path"
+import axios from "axios"
 import { Mode, defaultModeSlug } from "../../shared/modes"
 import { getModels, flushModels } from "../../api/providers/fetchers/modelCache"
 import { GetModelsOptions } from "../../shared/api"
@@ -870,6 +871,7 @@ export const webviewMessageHandler = async (
 						lmstudio: {},
 						roo: {},
 						chutes: {},
+						piramyd: {},
 					}
 
 			const safeGetModels = async (options: GetModelsOptions): Promise<ModelRecord> => {
@@ -919,6 +921,14 @@ export const webviewMessageHandler = async (
 				{
 					key: "chutes",
 					options: { provider: "chutes", apiKey: apiConfiguration.chutesApiKey },
+				},
+				{
+					key: "piramyd",
+					options: {
+						provider: "piramyd",
+						apiKey: apiConfiguration.piramydApiKey,
+						baseUrl: apiConfiguration.piramydBaseUrl
+					},
 				},
 			]
 
@@ -3552,6 +3562,62 @@ export const webviewMessageHandler = async (
 			break
 		}
 
+		case "piramydLogin": {
+			try {
+				const { username, password } = message.values || {}
+				const response = await axios.post("https://api.piramyd.cloud/v1/auth/token",
+					new URLSearchParams({ username, password }),
+					{ headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+				)
+				const { access_token } = response.data
+				await provider.contextProxy.storeSecret("piramydToken", access_token)
+
+				// Get user info (assuming there is an endpoint or we just use the token for now)
+				// For now let's just set a dummy user or fetch if possible.
+				// Based on API spec, there's no direct "get profile" but we can try to list users or assume.
+				// Actually /management/usage returns user_id, but let's just use what we have.
+				await updateGlobalState("piramydUser" as any, { username })
+				await provider.postStateToWebview()
+				vscode.window.showInformationMessage("Successfully logged in to Piramyd")
+			} catch (error: any) {
+				vscode.window.showErrorMessage(`Login failed: ${error.response?.data?.detail || error.message}`)
+			}
+			break
+		}
+		case "piramydRegister": {
+			try {
+				const { username, email, password } = message.values || {}
+				await axios.post("https://api.piramyd.cloud/v1/auth/register", {
+					username, email, password, is_active: true, is_superuser: false
+				})
+				vscode.window.showInformationMessage("Registration successful! Please login.")
+			} catch (error: any) {
+				vscode.window.showErrorMessage(`Registration failed: ${error.response?.data?.detail || error.message}`)
+			}
+			break
+		}
+		case "piramydLogout": {
+			await provider.contextProxy.storeSecret("piramydToken", undefined)
+			await updateGlobalState("piramydUser" as any, undefined)
+			await updateGlobalState("piramydStats" as any, undefined)
+			await provider.postStateToWebview()
+			vscode.window.showInformationMessage("Logged out from Piramyd")
+			break
+		}
+		case "piramydGetStats": {
+			try {
+				const token = await provider.contextProxy.getSecret("piramydToken")
+				if (!token) break
+				const response = await axios.get("https://api.piramyd.cloud/v1/management/usage/stats", {
+					headers: { Authorization: `Bearer ${token}` }
+				})
+				await updateGlobalState("piramydStats" as any, response.data)
+				await provider.postStateToWebview()
+			} catch (error: any) {
+				console.error("Failed to get Piramyd stats:", error)
+			}
+			break
+		}
 		case "browseForWorktreePath": {
 			try {
 				const options: vscode.OpenDialogOptions = {

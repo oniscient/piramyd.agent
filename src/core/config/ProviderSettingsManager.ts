@@ -62,8 +62,15 @@ export class ProviderSettingsManager {
 	)
 
 	private readonly defaultProviderProfiles: ProviderProfiles = {
-		currentApiConfigName: "default",
-		apiConfigs: { default: { id: this.defaultConfigId } },
+		currentApiConfigName: "Piramyd",
+		apiConfigs: {
+			Piramyd: {
+				id: this.defaultConfigId,
+				apiProvider: "piramyd",
+				piramydBaseUrl: "https://api.piramyd.cloud/v1",
+				apiModelId: "gpt-5-turbo"
+			}
+		},
 		modeApiConfigs: this.defaultModeApiConfigs,
 		migrations: {
 			rateLimitSecondsMigrated: true, // Mark as migrated on fresh installs
