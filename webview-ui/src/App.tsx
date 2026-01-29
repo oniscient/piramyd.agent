@@ -19,12 +19,13 @@ import { MarketplaceView } from "./components/marketplace/MarketplaceView"
 import { CheckpointRestoreDialog } from "./components/chat/CheckpointRestoreDialog"
 import { DeleteMessageDialog, EditMessageDialog } from "./components/chat/MessageModificationConfirmationDialog"
 import ErrorBoundary from "./components/ErrorBoundary"
-import { CloudView } from "./components/cloud/CloudView"
+import PiramydAccountView from "./components/piramyd/PiramydAccountView"
+import PiramydStatsView from "./components/piramyd/PiramydStatsView"
 import { useAddNonInteractiveClickListener } from "./components/ui/hooks/useNonInteractiveClick"
 import { TooltipProvider } from "./components/ui/tooltip"
 import { STANDARD_TOOLTIP_DELAY } from "./components/ui/standard-tooltip"
 
-type Tab = "settings" | "history" | "chat" | "marketplace" | "cloud"
+type Tab = "settings" | "history" | "chat" | "marketplace" | "account" | "stats"
 
 interface DeleteMessageDialogState {
 	isOpen: boolean
@@ -49,7 +50,8 @@ const tabsByMessageAction: Partial<Record<NonNullable<ExtensionMessage["action"]
 	settingsButtonClicked: "settings",
 	historyButtonClicked: "history",
 	marketplaceButtonClicked: "marketplace",
-	cloudButtonClicked: "cloud",
+	cloudButtonClicked: "account",
+	statsButtonClicked: "stats",
 }
 
 const App = () => {
@@ -237,14 +239,8 @@ const App = () => {
 					targetTab={currentMarketplaceTab as "mcp" | "mode" | undefined}
 				/>
 			)}
-			{tab === "cloud" && (
-				<CloudView
-					userInfo={cloudUserInfo}
-					isAuthenticated={cloudIsAuthenticated}
-					cloudApiUrl={cloudApiUrl}
-					organizations={cloudOrganizations}
-				/>
-			)}
+			{tab === "account" && <PiramydAccountView />}
+			{tab === "stats" && <PiramydStatsView />}
 			<ChatView
 				ref={chatViewRef}
 				isHidden={tab !== "chat"}

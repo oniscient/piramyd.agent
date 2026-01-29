@@ -138,6 +138,8 @@ export function getProviderDefaultModelId(
 			return ioIntelligenceDefaultModelId
 		case "roo":
 			return rooDefaultModelId
+		case "piramyd":
+			return "gpt-5-turbo"
 		case "qwen-code":
 			return qwenCodeDefaultModelId
 		case "vercel-ai-gateway":
