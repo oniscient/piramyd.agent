@@ -1,7 +1,7 @@
 {
-	"extension.displayName": "Roo Code Nightly",
-	"views.contextMenu.label": "Roo Code Nightly",
-	"views.terminalMenu.label": "Roo Code Nightly",
-	"views.activitybar.title": "Roo Code Nightly",
-	"configuration.title": "Roo Code Nightly"
+	"extension.displayName": "Piramyd Agent Nightly",
+	"views.contextMenu.label": "Piramyd Agent Nightly",
+	"views.terminalMenu.label": "Piramyd Agent Nightly",
+	"views.activitybar.title": "Piramyd Agent Nightly",
+	"configuration.title": "Piramyd Agent Nightly"
 }

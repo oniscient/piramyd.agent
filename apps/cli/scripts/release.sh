@@ -1,5 +1,5 @@
 #!/bin/bash
-# Roo Code CLI Release Script
+# Piramyd Agent CLI Release Script
 #
 # Usage:
 #   ./apps/cli/scripts/release.sh [options] [version]
@@ -568,7 +568,7 @@ EOF
     fi
     
     gh release create "$TAG" \
-        --title "Roo Code CLI v$VERSION" \
+        --title "Piramyd Agent CLI v$VERSION" \
         --notes "$RELEASE_NOTES" \
         --prerelease \
         --target "$COMMIT_SHA" \
@@ -666,9 +666,9 @@ print_local_install_summary() {
 main() {
     echo ""
     printf "${BLUE}${BOLD}"
-    echo "  ╭─────────────────────────────────╮"
-    echo "  │   Roo Code CLI Release Script   │"
-    echo "  ╰─────────────────────────────────╯"
+    echo "  ╭────────────────────────────────────╮"
+    echo "  │  Piramyd Agent CLI Release Script  │"
+    echo "  ╰────────────────────────────────────╯"
     printf "${NC}"
     
     if [ "$DRY_RUN" = true ]; then
